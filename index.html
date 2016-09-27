@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="weatherApp">
+
+<head>
+    <title>My Angular Weather App</title>
+
+    <!-- the typical metags-->
+    <meta charset="utf-8">
+    <!--
+        Mobile browsers like Fennec render pages in a virtual "window" (the viewport), usually wider than the screen, so they don't need to squeeze every page layout into a tiny window (which would break many non-mobile-optimized sites). Users can pan and zoom to see different areas of the page.
+        Mobile Safari introduced the "viewport meta tag" to let web developers control the viewport's size and scale. Many other mobile browsers now support this tag, although it is not part of any web standard.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Add here the website descritpion">
+    <meta name="author" content="Add here the author name">
+
+    <!-- link all the css styles starting with the external ones and then your own styles-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/">AngularJS Weather</a>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><i class="fa fa-home"></i> Home</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <section>
+        <div class="container">
+
+            <div ng-view></div>
+
+        </div>
+    </section>
+
+    <section></section>
+
+    <footer></footer>
+
+    <!-- add all the scripts starting with the external ones and then your own javascript-->
+    <!-- load angular via CDN -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-resource.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/nggeo.js"></script>
+</body>
+
+</html>
+
+
+
+
