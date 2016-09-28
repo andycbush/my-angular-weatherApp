@@ -1,5 +1,5 @@
 // MODULE
-var weatherApp = angular.module('weatherApp', ['ngRoute', 'ngGeolocation', 'ngResource']);
+var weatherApp = angular.module('weatherApp', ['ngRoute', 'ngGeolocation', 'ngResource', 'ngGeolocation']);
 
 
 
@@ -27,20 +27,27 @@ weatherApp.config(function ($routeProvider) {
 });
 
 // SERVICES
+
+
 weatherApp.service('cityService', function() {
 
     this.city = "Cleveland, OH";
 
+
 });
 
 // CONTROLLERS
+
+
 weatherApp.controller('geolocCtrl', ['$geolocation', '$scope', function($geolocation, $scope) {
     $geolocation.getCurrentPosition({
         timeout: 60000
     }).then(function(position) {
+        console.log(position);
         $scope.myPosition = position;
     });
 }]);
+
 
 weatherApp.controller('homeController', ['$scope', 'cityService', function($scope, cityService) {
 
@@ -79,17 +86,21 @@ weatherApp.controller('forecastController', ['$scope', '$resource', '$routeParam
 }]);
 
 // directive
-
+/*
 weatherApp.directive("weatherReport", function() {
     return {
         restrict: 'E',
         template: 'directives/weatherReport.html',
         replace: true,
         scope: {
-
+            weatherDay: "=",
+            convertToStandard: "&",
+            convertToDate: "&",
+            dateFormat: "@"
         }
     }
-})
+});
 
 
 // http://api.openweathermap.org/data/2.5/forecast/daily?&APPID=YOURAPIKEY
+*/
