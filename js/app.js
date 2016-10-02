@@ -86,7 +86,7 @@ weatherApp.controller('cityForecastController', ['$scope', '$resource', '$routeP
 
         $scope.days = $routeParams.days || '2';
 
-        $scope.weatherAPI = $resource("http://api.openweathermap.org/data/2.5/forecast/daily?&APPID=6e1eb9f86b95b66e1f503a72c7bdab0c", { callback: "JSON_CALLBACK" }, { get: { method: "JSONP" }});
+        $scope.weatherAPI = $resource("https://crossorigin.me/http://api.openweathermap.org/data/2.5/forecast/daily?&APPID=6e1eb9f86b95b66e1f503a72c7bdab0c", { callback: "JSON_CALLBACK" }, { get: { method: "JSONP" }});
 
         $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: $scope.days});
 
@@ -101,7 +101,7 @@ weatherApp.controller('cityForecastController', ['$scope', '$resource', '$routeP
         }
     }
     else {
-        window.location = "/index.html#/";
+        window.location = "https://andycbush.github.io/my-angular-weatherApp/index.html#/";
     }
 
 }]);
@@ -113,7 +113,7 @@ weatherApp.controller('geoForecastController', ['$scope', '$resource', '$routePa
 
         $scope.days = $routeParams.days || '2';
 
-        $scope.weatherAPI = $resource("http://api.openweathermap.org/data/2.5/forecast/daily?&APPID=6e1eb9f86b95b66e1f503a72c7bdab0c", { callback: "JSON_CALLBACK" }, { get: { method: "JSONP" }});
+        $scope.weatherAPI = $resource("https://crossorigin.me/http://api.openweathermap.org/data/2.5/forecast/daily?&APPID=6e1eb9f86b95b66e1f503a72c7bdab0c", { callback: "JSON_CALLBACK" }, { get: { method: "JSONP" }});
 
         $scope.weatherResult = $scope.weatherAPI.get({ lat: theLat.toString(), lon: theLon.toString(), cnt: $scope.days });
 
@@ -126,7 +126,7 @@ weatherApp.controller('geoForecastController', ['$scope', '$resource', '$routePa
         }
     }
     else {
-        window.location = "/index.html#/";
+        window.location = "https://andycbush.github.io/my-angular-weatherApp/index.html#/";
     }
 
 }]);
