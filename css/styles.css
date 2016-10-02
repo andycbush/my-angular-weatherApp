@@ -59,6 +59,12 @@ Content styles (Main Module)
 .mytext {
     color: aliceblue;
 }
+.forecast-input {
+    margin-bottom: 2rem;
+}
+.row label, h4 {
+    color:white;
+}
 /* -------------------------------------
 Footer styles (Main Module)
 (all the styles inside the < footer > tag)

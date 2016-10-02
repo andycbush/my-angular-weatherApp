@@ -1,8 +1,9 @@
 // MODULE
-var weatherApp = angular.module('weatherApp', ['ngRoute', 'ngGeolocation', 'ngResource', 'ngGeolocation']);
+var weatherApp = angular.module('weatherApp', ['ngRoute', 'ngResource', 'ngGeolocation']);
 
 
-
+var theLat = "";
+var theLon = "";
 
 // ROUTES
 weatherApp.config(function ($routeProvider) {
@@ -16,12 +17,17 @@ weatherApp.config(function ($routeProvider) {
 
         .when('/forecast', {
         templateUrl: 'pages/forecast.htm',
-        controller: 'forecastController'
+        controller: 'cityForecastController'
     })
 
         .when('/forecast/:days', {
         templateUrl: 'pages/forecast.htm',
-        controller: 'forecastController'
+        controller: 'cityForecastController'
+    })
+
+        .when('/geoforecast', {
+        templateUrl: 'pages/geoforecast.htm',
+        controller: 'geoForecastController'
     })
 
 });
@@ -30,24 +36,37 @@ weatherApp.config(function ($routeProvider) {
 
 
 weatherApp.service('cityService', function() {
-
     this.city = "Cleveland, OH";
-
-
 });
+
 
 // CONTROLLERS
 
 
-weatherApp.controller('geolocCtrl', ['$geolocation', '$scope', function($geolocation, $scope) {
-    $geolocation.getCurrentPosition({
-        timeout: 60000
-    }).then(function(position) {
-        console.log(position);
-        $scope.myPosition = position;
-    });
-}]);
+weatherApp.controller('geoController', function($scope, $geolocation){
 
+    $scope.$geolocation = $geolocation;
+    //console.log($scope.$geolocation);
+    // basic usage
+    $geolocation.getCurrentPosition().then(function(location) {
+        $scope.location = location;
+        //console.log($scope.location);//returns an object
+        theLat = location.coords.latitude;
+        theLon = location.coords.longitude;
+        //console.log($scope.myLat);//returns current latitude
+    });
+
+
+    // regular updates
+    $geolocation.watchPosition({
+        timeout: 60000,
+        maximumAge: 2,
+        enableHighAccuracy: true
+    });
+    $scope.coords = $geolocation.position.coords; // this is regularly updated
+    $scope.error = $geolocation.position.error; // this becomes truthy, and has 'code' and 'message' if an error occurs
+
+});
 
 weatherApp.controller('homeController', ['$scope', 'cityService', function($scope, cityService) {
 
@@ -59,48 +78,60 @@ weatherApp.controller('homeController', ['$scope', 'cityService', function($scop
 
 }]);
 
-weatherApp.controller('forecastController', ['$scope', '$resource', '$routeParams', 'cityService', function($scope, $resource, $routeParams, cityService) {
+weatherApp.controller('cityForecastController', ['$scope', '$resource', '$routeParams', 'cityService', function($scope, $resource, $routeParams, cityService) {
 
-    $scope.city = cityService.city;
+    if((theLat != "") && (theLon != "")) {
 
-    $scope.days = $routeParams.days || '2';
+        $scope.city = cityService.city;
 
-    $scope.weatherAPI = $resource("http://api.openweathermap.org/data/2.5/forecast/daily?&APPID=6e1eb9f86b95b66e1f503a72c7bdab0c", { callback: "JSON_CALLBACK" }, { get: { method: "JSONP" }});
+        $scope.days = $routeParams.days || '2';
 
-    $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: $scope.days });
+        $scope.weatherAPI = $resource("http://api.openweathermap.org/data/2.5/forecast/daily?&APPID=6e1eb9f86b95b66e1f503a72c7bdab0c", { callback: "JSON_CALLBACK" }, { get: { method: "JSONP" }});
 
-    console.log($scope.weatherResult);
+        $scope.weatherResult = $scope.weatherAPI.get({ q: $scope.city, cnt: $scope.days});
 
-    $scope.convertToFahrenheit = function(degK) {
+        $scope.convertToFahrenheit = function(degK) {
+            return Math.round((1.8 * (degK - 273)) + 32);
+        }
 
-        return Math.round((1.8 * (degK - 273)) + 32);
+        $scope.convertToDate = function(dt) {
 
+            return new Date(dt * 1000);
+
+        }
     }
-
-    $scope.convertToDate = function(dt) {
-
-        return new Date(dt * 1000);
-
-    };
+    else {
+        window.location = "/index.html#/";
+    }
 
 }]);
 
-// directive
-/*
-weatherApp.directive("weatherReport", function() {
-    return {
-        restrict: 'E',
-        template: 'directives/weatherReport.html',
-        replace: true,
-        scope: {
-            weatherDay: "=",
-            convertToStandard: "&",
-            convertToDate: "&",
-            dateFormat: "@"
+
+weatherApp.controller('geoForecastController', ['$scope', '$resource', '$routeParams', 'cityService', function($scope, $resource, $routeParams, cityService) {
+    if((theLat != "") && (theLon != "")) {
+        $scope.city = cityService.city;
+
+        $scope.days = $routeParams.days || '2';
+
+        $scope.weatherAPI = $resource("http://api.openweathermap.org/data/2.5/forecast/daily?&APPID=6e1eb9f86b95b66e1f503a72c7bdab0c", { callback: "JSON_CALLBACK" }, { get: { method: "JSONP" }});
+
+        $scope.weatherResult = $scope.weatherAPI.get({ lat: theLat.toString(), lon: theLon.toString(), cnt: $scope.days });
+
+        $scope.convertToFahrenheit = function(degK) {
+            return Math.round((1.8 * (degK - 273)) + 32);
+        }
+
+        $scope.convertToDate = function(dt) {
+            return new Date(dt * 1000);
         }
     }
-});
+    else {
+        window.location = "/index.html#/";
+    }
+
+}]);
+
 
 
 // http://api.openweathermap.org/data/2.5/forecast/daily?&APPID=YOURAPIKEY
-*/
+

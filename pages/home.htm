@@ -1,3 +1,4 @@
+
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
         <h3 class="mytext"><strong>Forecast by City</strong></h3>
@@ -5,5 +6,20 @@
             <input type="text" ng-model="city" value="{{ position }}" class="form-control" />
         </div>
         <a href="#/forecast" class="btn btn-primary">Get Forecast</a>
+        <div ng-controller="geoController">
+
+                <h3 class="mytext"><strong>Forecast by GeoLocation</strong></h3>
+
+                <label for="latitude">Current Latitude </label>
+            <input type="text"  name="latitude" ng-model='theLat' disabled class="form-control forecast-input" placeholder="{{$geolocation.position.coords.latitude}}" />
+
+                <label for="longitude">Current Longitude</label>
+            <input type="text"  name="longitude" ng-model='theLon' disabled class="form-control forecast-input" placeholder="{{$geolocation.position.coords.longitude}}" />
+
+
+                <a href="#/geoforecast" class="btn btn-primary">Get geoForecast</a>
+
+        </div>
     </div>
 </div>
+
