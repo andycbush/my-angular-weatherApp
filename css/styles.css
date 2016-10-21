@@ -50,7 +50,8 @@ Content styles (Main Module)
 (all the styles inside the < sections > or < aside > tags)
 */
 .myimg {
-    background: rgba(0, 0, 0, 0) url("https://hd.unsplash.com/photo-1432927994002-af88b5da76a2") no-repeat center center fixed;
+    /*background: rgba(0, 0, 0, 0) url("https://hd.unsplash.com/photo-1432927994002-af88b5da76a2") no-repeat center center fixed;*/
+    background: rgba(0, 0, 0, 0) url("../img/weatherImg.jpeg") no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
